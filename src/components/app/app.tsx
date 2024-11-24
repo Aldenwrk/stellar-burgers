@@ -14,16 +14,19 @@ import styles from './app.module.css';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
-import { useDispatch } from '../../../src/services/store';
+import { useDispatch, useSelector } from '../../../src/services/store';
 import { useEffect } from 'react';
 import { checkUserAuth } from '../../../src/services/auth/actions';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
+import { getIngredients } from '../../../src/services/ingredients/actions';
 
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  //const userName = useSelector((store) => store.auth.user?.name);
 
   useEffect(() => {
+    dispatch(getIngredients());
     dispatch(checkUserAuth());
   }, []);
 

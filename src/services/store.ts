@@ -6,8 +6,9 @@ import {
   useSelector as selectorHook
 } from 'react-redux';
 import { authSlice } from './auth/slice';
+import { ingredientsSlice } from './ingredients/slice';
 
-const rootReducer = combineSlices(authSlice);
+const rootReducer = combineSlices(authSlice, ingredientsSlice);
 
 const store = configureStore({
   reducer: rootReducer,
@@ -20,6 +21,5 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useDispatch: () => AppDispatch = () => dispatchHook();
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-//проверить диспатч и селектор
 
 export default store;

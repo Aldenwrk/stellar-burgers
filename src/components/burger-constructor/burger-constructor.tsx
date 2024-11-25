@@ -26,7 +26,7 @@ export const BurgerConstructor: FC = () => {
   const orderItemsList = () => {
     const bunId = constructorItems.bun?._id as string;
     const ingredientsIds = constructorItems.ingredients.map((item) => item._id);
-    return [bunId, ...ingredientsIds];
+    return [bunId, bunId, ...ingredientsIds];
   };
 
   const onOrderClick = () => {

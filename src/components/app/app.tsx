@@ -44,6 +44,8 @@ const App = () => {
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
+        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
 
         <Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
         <Route
@@ -67,11 +69,15 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title={'Заказ'} onClose={navBack}>
+              <Modal
+                title={`#${location.pathname.split('/')[2]}`}
+                onClose={navBack}
+              >
                 <OrderInfo />
               </Modal>
             }
           />
+
           <Route
             path='/ingredients/:id'
             element={
@@ -86,7 +92,10 @@ const App = () => {
             element={
               <OnlyAuth
                 component={
-                  <Modal title={'Заказ'} onClose={navBack}>
+                  <Modal
+                    title={`#${location.pathname.split('/')[3]}`}
+                    onClose={navBack}
+                  >
                     <OrderInfo />
                   </Modal>
                 }

@@ -11,7 +11,7 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { useDispatch, useSelector } from '../../../src/services/store';
@@ -23,6 +23,7 @@ import { getIngredients } from '../../../src/services/ingredients/actions';
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   //const userName = useSelector((store) => store.auth.user?.name);
 
   useEffect(() => {
@@ -34,11 +35,13 @@ const App = () => {
     navigate(-1);
   };
 
+  const backgroundLocation = location.state?.background;
+
   return (
     <div className={styles.app}>
       <AppHeader />
 
-      <Routes>
+      <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
 
@@ -59,37 +62,39 @@ const App = () => {
         />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
-      <Routes>
-        <Route
-          path='/feed/:number'
-          element={
-            <Modal title={'Детали заказа'} onClose={navBack}>
-              <OrderInfo />
-            </Modal>
-          }
-        />
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal title={'Детали ингредиента'} onClose={navBack}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal title={'Заказ'} onClose={navBack}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal title={'Детали ингредиента'} onClose={navBack}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
 
-        <Route
-          path='/profile/orders/:number'
-          element={
-            <OnlyAuth
-              component={
-                <Modal title={'Заказ'} onClose={navBack}>
-                  <OrderInfo />
-                </Modal>
-              }
-            />
-          }
-        />
-      </Routes>
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <OnlyAuth
+                component={
+                  <Modal title={'Заказ'} onClose={navBack}>
+                    <OrderInfo />
+                  </Modal>
+                }
+              />
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };

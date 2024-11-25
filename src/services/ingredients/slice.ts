@@ -2,10 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 import { getIngredients } from './actions';
 
-interface TIngredientsState {
+type TIngredientsState = {
   ingredientsData: TIngredient[];
   dataLoading: boolean;
-}
+};
 
 export const initialState: TIngredientsState = {
   ingredientsData: [],

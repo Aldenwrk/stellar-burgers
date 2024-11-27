@@ -5,8 +5,11 @@ import { TIngredient } from '@utils-types';
 import { useDispatch, useSelector } from '../../../src/services/store';
 import { useParams } from 'react-router-dom';
 import { getOrderByNumber } from '../../../src/services/feeds/actions';
+interface TOrderInfo {
+  title?: boolean;
+}
 
-export const OrderInfo: FC = () => {
+export const OrderInfo: FC<TOrderInfo> = (props) => {
   /** TODO: взять переменные orderData и ingredients из стора */
   const dispatch = useDispatch();
   const orderNumber = Number(useParams().id);
@@ -65,6 +68,12 @@ export const OrderInfo: FC = () => {
 
   if (!orderInfo) {
     return <Preloader />;
+  }
+
+  if (props.title) {
+    return (
+      <OrderInfoUI orderInfo={orderInfo} title={`#${orderData?.number}`} />
+    );
   }
 
   return <OrderInfoUI orderInfo={orderInfo} />;

@@ -55,5 +55,3 @@ export const updateUserdata = createAsyncThunk(
   'auth/updateUserdata',
   async (data: TRegisterData) => await updateUserApi(data)
 );
-
-//проверить экшены ещё раз

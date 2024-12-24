@@ -77,6 +77,7 @@ export const orderConstructorSlice = createSlice({
               state.constructorItems.ingredients[index - 1];
             state.constructorItems.ingredients[index - 1] = ingredient;
           }
+          break;
       }
     }
   },

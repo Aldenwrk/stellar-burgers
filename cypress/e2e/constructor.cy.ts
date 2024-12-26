@@ -1,4 +1,4 @@
-describe('проверяем доступность приложения', function() {
+describe('Тестируем функционал конструктора', function() {
   beforeEach(()=>{
     cy.intercept('GET', 'api/ingredients', {
       fixture: 'ingredients.json'
@@ -36,4 +36,44 @@ describe('проверяем доступность приложения', funct
     cy.get('[data-cy="modal"]').should('not.exist');
   });
 }); 
+
+describe('Тестируем создание заказа', ()=>{
+  it('Заказ создаётся', ()=>{
+    //перехватываем запросы и сохраняем куки
+  
+    cy.intercept('GET', 'api/ingredients', {
+      fixture: 'ingredients.json'
+    });
+   cy.intercept('POST', 'api/orders', {
+    fixture: 'order.json'
+   });
+    cy.intercept('GET', 'api/auth/user', {
+      fixture: 'user.json'
+    });
+    cy.setCookie('accessToken', '123');
+    cy.window().then((win)=>{
+      win.localStorage.setItem('refreshToken', '321');
+    });
+    cy.visit('http://localhost:4000');
+    
+    //Проверяем модалку
+    cy.get('[data-cy="modal"]').should('not.exist');
+    //наполняем конструктор элементами
+    cy.get('.common_button').eq(0).click();
+    cy.get('.common_button').eq(1).click();
+    cy.get('.common_button').eq(2).click();
+      //оформляем заказ, проверяем модалку
+    cy.get('[data-cy="burger-constructor"]').contains('Оформить заказ').click();
+    cy.get('[data-cy="modal"]').should('exist');
+    cy.get('[data-cy="modal"]').contains('123').should('exist');
+    //закрываем модалку, проверяем что закрылась
+    cy.get('[data-cy="close"]').click();
+    cy.get('[data-cy="modal"]').should('not.exist');
+    //проверяем что конструктор наполнен плейсхолдерами
+    cy.get('[data-cy="burger-constructor"]').contains('Выберите булки').should('exist');
+    cy.get('[data-cy="burger-constructor"]').contains('Выберите начинку').should('exist');
+  })
+  
+
+});
 

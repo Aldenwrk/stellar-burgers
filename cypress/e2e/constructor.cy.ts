@@ -72,6 +72,11 @@ describe('Тестируем создание заказа', ()=>{
     //проверяем что конструктор наполнен плейсхолдерами
     cy.get('[data-cy="burger-constructor"]').contains('Выберите булки').should('exist');
     cy.get('[data-cy="burger-constructor"]').contains('Выберите начинку').should('exist');
+
+    cy.window().then((win) => {
+      win.localStorage.clear();
+    });
+    cy.clearCookie('accessToken');
   })
   
 

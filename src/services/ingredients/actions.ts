@@ -1,4 +1,4 @@
-import { getIngredientsApi } from '@api';
+import { getIngredientsApi } from '../../../src/utils/burger-api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getIngredients = createAsyncThunk(

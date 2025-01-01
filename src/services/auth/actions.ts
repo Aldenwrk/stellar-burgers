@@ -6,7 +6,7 @@ import {
   TLoginData,
   TRegisterData,
   updateUserApi
-} from '@api';
+} from '../../../src/utils/burger-api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setIsAuthChecked, setUser } from './slice';
 import { deleteCookie, getCookie, setCookie } from '../../../src/utils/cookie';
@@ -55,5 +55,3 @@ export const updateUserdata = createAsyncThunk(
   'auth/updateUserdata',
   async (data: TRegisterData) => await updateUserApi(data)
 );
-
-//проверить экшены ещё раз

@@ -10,6 +10,7 @@ type TFeedsState = {
   orderByNumber: TOrder | null;
   userOrders: TOrder[];
   orderRequest: boolean;
+  error: string | null;
 };
 
 export const initialState: TFeedsState = {
@@ -19,7 +20,8 @@ export const initialState: TFeedsState = {
   isLoading: false,
   orderByNumber: null,
   userOrders: [],
-  orderRequest: false
+  orderRequest: false,
+  error: null
 };
 
 export const feedsSlice = createSlice({
@@ -39,6 +41,10 @@ export const feedsSlice = createSlice({
         state.orders = action.payload.orders;
         state.total = action.payload.total;
         state.totalToday = action.payload.totalToday;
+      })
+      .addCase(getFeeds.rejected, (state) => {
+        state.isLoading = false;
+        state.error = 'Не удалось загрузить данные';
       })
       .addCase(getUserOrders.pending, (state) => {
         state.orderRequest = true;

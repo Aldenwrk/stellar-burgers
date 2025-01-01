@@ -5,11 +5,15 @@ import { login, logout, updateUserdata } from './actions';
 type TUserState = {
   user: TUser | null;
   isAuthChecked: boolean;
+  isLoading: boolean;
+  error: string | null;
 };
 
 export const initialState: TUserState = {
   user: null,
-  isAuthChecked: false
+  isAuthChecked: false,
+  isLoading: false,
+  error: null
 };
 
 export const authSlice = createSlice({
@@ -32,15 +36,29 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(login.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.isAuthChecked = true;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(login.rejected, (state) => {
+        state.isLoading = false;
+        state.isAuthChecked = true;
+        state.error = 'Не удалось загрузить данные';
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
       })
+      .addCase(updateUserdata.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(updateUserdata.fulfilled, (state, action) => {
         state.user = action.payload.user;
+        state.isLoading = false;
       });
   }
 });
